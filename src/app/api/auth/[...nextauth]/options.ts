@@ -18,7 +18,8 @@ export const authOptions:NextAuthOptions={
 
             async authorize(credentials:any):Promise<any>{
                 await DBconnect()
-
+                console.log("credentials: ",credentials);
+                
                 try {
                     const existingUser=await UserModel.findOne({
                         $or:[
