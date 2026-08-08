@@ -68,11 +68,11 @@ export async function POST(req:NextRequest){
         )
 
     } 
-    catch (error) {
+    catch (error:any) {
         console.log("Error while registering User ",error);
         
         return Response.json(
-            {success:false,message:"Error registering user"} as ApiResponse,
+            {success:false,message:error.message||"Error registering user"} as ApiResponse,
             {status:500}
         )
     }

@@ -5,17 +5,21 @@ import {success, z} from "zod";
 
 export async function GET(req:NextRequest){
     await DBconnect()
+    // console.log("here unique username");
+    
 
     try {
         const searchParams=req.nextUrl.searchParams
         const queryParam=searchParams.get("username")
+        // console.log("search params: ",queryParam);
+        
 
         const result=z.object({
             username:z.string().trim()
                 .min(6,{message:"username must be of atleast 6 characters"})
                 .max(20,{message:"username must be no more than 20 characters"})
                 .regex(/^[a-zA-Z0-9_]+$/,{message:"username only contain letters, numbers and underscores"}),
-        }).safeParse({queryParam})
+        }).safeParse({username:queryParam})
         // console.log("zod result: ",result);
 
         if(!result.success){
@@ -33,16 +37,19 @@ export async function GET(req:NextRequest){
         }
 
         const {username}=result.data
-
+        // console.log(username);
+        
         const existingVerifiedUser=await UserModel.findOne({username,isVerified:true})
-        if(!existingVerifiedUser){
+        if(existingVerifiedUser){
+            // console.log("existed");
+            
             return NextResponse.json(
                 {success:false,message:"this username is not available"},
                 {status:400}
             )
         }
         return NextResponse.json(
-            {success:false,message:"username is unique"},
+            {success:true,message:"username is unique"},
             {status:200}
         )
         

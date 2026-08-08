@@ -21,7 +21,7 @@ export async function proxy(request: NextRequest) {
   if(!token && url.pathname.startsWith('/dashboard')){
     return NextResponse.redirect(new URL('/sign-in',request.url))
   }
-  return NextResponse.redirect(new URL('/', request.url))
+  // return NextResponse.redirect(new URL('/', request.url))
 }
  
 export const config = {
