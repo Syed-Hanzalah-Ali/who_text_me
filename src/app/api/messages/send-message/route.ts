@@ -10,6 +10,8 @@ import {z} from "zod";
 
 
 export async function POST(req:NextRequest){
+    console.log("trying sending message");
+    
     await DBconnect()
 
     try {

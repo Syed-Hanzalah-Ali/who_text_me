@@ -22,23 +22,48 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { IMsg } from "@/app/dashboard/page"
+import axios from "axios"
+import { toast } from "./ui/toast"
 
-export default function MessageCard() {
+
+type msg={
+  message:IMsg,
+  onMessageDelete:(messageId:string)=>void
+}
+export default function MessageCard({message,onMessageDelete}:msg) {
 
     async function handleDeleteMsg(){
+      try {
+        console.log("handle delete called");
         
+        const response=await axios.delete(`/api/messages/delete-message/${message._id}`)
+        if(response.data.success){
+          toast.add({
+            description:response.data.message
+          })
+          onMessageDelete(message._id)
+        }
+      } 
+      catch (error:any) {
+        toast.add({
+          title:"Error",
+          description:error.response.data.message || "something went wrong while deleting message"
+        })
+      }
     }
-(
+
+  return (
     <Card className="w-full max-w-sm">
       
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          {message.content}
         </CardDescription>
         <AlertDialog>
 
             <AlertDialogTrigger
-                render={<Button variant="destructive">Delete Chat</Button>}
+                render={<Button variant="destructive">Delete Message</Button>}
             />
 
             <AlertDialogContent size="sm">

@@ -30,7 +30,9 @@ export async function GET(req:NextRequest){
                 $sort:{createdAt:-1}
             }
         ])
-        if(!messages){
+        // console.log("msgs: ",messages);
+        
+        if(!messages.length){
             return NextResponse.json(
                 {success:false,message:"no messages found"},
                 {status:404}

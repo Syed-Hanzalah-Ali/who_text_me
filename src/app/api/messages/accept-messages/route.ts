@@ -22,10 +22,10 @@ export async function POST(req:NextRequest){
     
     try {
         const userId=user._id
-        const {messageStatus}=await req.json()
+        const {isAcceptingMessages}=await req.json()
 
         const updatedUser=await UserModel.findByIdAndUpdate(userId,{
-            isAcceptingMessage:messageStatus
+            isAcceptingMessage:isAcceptingMessages
         },{returnDocument:"after"})
 
         if(!updatedUser){
@@ -74,7 +74,7 @@ export async function GET(req:NextRequest){
         }
 
         return NextResponse.json(
-            {success:true,isAccpetingMessage:foundUser.isAcceptingMessage},
+            {success:true,isAcceptingMessages:foundUser.isAcceptingMessage},
             {status:200}
         )
         

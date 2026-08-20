@@ -1,6 +1,6 @@
 import mongoose,{Schema,Document} from "mongoose"
 
-interface IMsg{
+export interface IMsg{
     content:string,
     to:mongoose.Types.ObjectId
 }
